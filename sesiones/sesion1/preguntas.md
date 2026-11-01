@@ -1,6 +1,3 @@
-*Proyecto:* Gestión de actividades extracurriculares
-
----
 # Preguntas y Puntos Clave para la Próxima Sesión
 
 ## 1. Situación Actual y Proceso "As-Is" (Estado Actual)
@@ -26,12 +23,12 @@
 ---
 
 ## Propuesta por parte del alumno:
--Inscripción en 1 Clic: Apuntarse directamente desde la ficha de la actividad.
+- Inscripción en 1 Clic: Apuntarse directamente desde la ficha de la actividad.
 
--Buscador Sencillo: Filtrar por año, categoría y plazas disponibles.
+- Buscador Sencillo: Filtrar por año, categoría y plazas disponibles.
 
--Saldo de Créditos: Contador visible (ej: 4/6 créditos acumulados).
+- Saldo de Créditos: Contador visible (ej: 4/6 créditos acumulados).
 
--Descarga Directa: Obtener el título en PDF al completar la actividad.
+- Descarga Directa: Obtener el título en PDF al completar la actividad.
 
--Historial Simple: Lista básica de actividades realizadas.
+- Historial Simple: Lista básica de actividades realizadas.
