@@ -6,11 +6,6 @@
 **Proyecto:** Gestión de actividades extracurriculares
 
 ---
-## Objetivo de la fase
-
-Comprender la idea general del proyecto, las necesidades del cliente, el funcionamiento actual de las actividades extracurriculares y los resultados que se esperan conseguir.
-
----
 ## Preguntas 
 
 1. ¿Cuál es la idea general del proyecto?
