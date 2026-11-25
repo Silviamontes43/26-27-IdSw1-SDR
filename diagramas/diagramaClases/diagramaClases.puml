@@ -1,84 +1,122 @@
 @startuml
+title Diagrama de Clases - Actividades Extracurriculares UNEATLÁNTICO
 
-enum CategoriaCredito {
-  ACTIVIDADES_UNIVERSITARIAS
-  COMPETENCIAS_IDIOMATICAS
-  CULTURALES
-  DEPORTIVAS
-  REPRESENTACION_ESTUDIANTIL
-  SOLIDARIAS_Y_COOPERACION
+skinparam classAttributeIconSize 0
+hide empty methods
+
+enum EstadoAsistencia {
+  PRESENTE
+  FALTA_JUSTIFICADA
+  FALTA_INJUSTIFICADA
+}
+
+enum TipoSolicitud {
+  CONVALIDACION_OPTATIVA
+  ACREDITACION_HISTORIAL
+}
+
+enum EstadoSolicitud {
+  PENDIENTE
+  ACEPTADA
+  RECHAZADA
 }
 
 abstract class Usuario {
-  # id: String
-  # nombre: String
-  # apellidos: String
-  # email: String
-  # contrasena: String
-  + iniciarSesion(): Boolean
-  + cerrarSesion(): Void
+  # nombreCompleto : String
+  # correoInstitucional : String
+}
+
+class Secretario {
+  + crearActividad(actividad : Actividad, organizador : Organizador) : void
+  + eliminarActividad(actividad : Actividad) : void
+  + resolverSolicitud(solicitud : Solicitud, aceptada : boolean) : void
+}
+
+class Organizador {
+  + anadirParticipante(actividad : Actividad, alumno : Alumno, rol : RolParticipacion) : Participacion
+  + registrarAsistencia(participacion : Participacion, fecha : Date, estado : EstadoAsistencia) : void
+  + cerrarActividad(actividad : Actividad) : void
 }
 
 class Alumno {
-  - dni: String
-  - expediente: String
-  - grado: String
-  + consultarHistorialCompleto(): List<RegistroActividad>
-  + consultarHistorialPorCurso(curso: String): List<RegistroActividad>
-  + consultarHistorialPorCategoria(categoria: CategoriaCredito): List<RegistroActividad>
-  + consultarHistorialFiltrado(curso: String, categoria: CategoriaCredito): List<RegistroActividad>
-  + calcularTotalECTS(): Float
-  + calcularECTSPorCategoria(categoria: CategoriaCredito): Float
+  - expediente : String
+  - creditosDisponibles : double
+  - creditosCanjeados : double
+  + consultarHistorial() : List<Participacion>
+  + crearSolicitud(tipo : TipoSolicitud, creditos : double) : Solicitud
 }
 
-class TitularOrganizacion {
-  - cargo: String
-  - departamento: String
-  + registrarActividad(actividad: ActividadExtraescolar): Void
-  + cargarAcreditacionAlumno(alumno: Alumno, actividad: ActividadExtraescolar, rol: String, horas: Int, asistencia: Float, ects: Float): RegistroActividad
+class Ambito {
+  - nombre : String
+  - maxCreditos : double
 }
 
-class Organizacion {
-  - id: String
-  - nombre: String
-  - esExterna: Boolean
+class Actividad {
+  - nombre : String
+  - descripcion : String
+  - departamento : String
+  - cursoAcademico : String
+  - cerrada : boolean
+  + cerrar() : void
 }
 
-class ActividadExtraescolar {
-  - id: String
-  - titulo: String
-  - descripcion: String
-  - cursoAcademico: String
-  - horasLectivas: Int
-  - categoria: CategoriaCredito
-  + getCategoria(): CategoriaCredito
-  + getCursoAcademico(): String
+class RolParticipacion {
+  - nombre : String
+  - creditos : double
+  - asistenciaMinima : double
+  - horasMinimas : double
+  + cumpleRequisitos(asistencia : double, horas : double) : boolean
 }
 
-class RegistroActividad {
-  - id: String
-  - fechaEmision: Date
-  - rolDesempenado: String
-  - horasAcreditadas: Int
-  - porcentajeAsistencia: Float
-  - creditosOtorgados: Float
-  - certificadoUrl: String
-  + obtenerCategoria(): CategoriaCredito
-  + obtenerCursoAcademico(): String
-  + validarRequisitosReglamento(): Boolean
+class Participacion {
+  - horasRealizadas : double
+  - creditosObtenidos : double
+  - superada : boolean
+  - codigoDiploma : String
+  + evaluar() : void
+  + emitirDiploma() : String
 }
 
-' Relaciones entre clases
+class Asistencia {
+  - fecha : Date
+  - estado : EstadoAsistencia
+  - justificante : String
+  + justificarFalta(justificante : String) : void
+}
+
+class Solicitud {
+  - fecha : Date
+  - tipo : TipoSolicitud
+  - creditosSolicitados : double
+  - estado : EstadoSolicitud
+  - observaciones : String
+  + aceptar() : void
+  + rechazar(motivo : String) : void
+}
+
+' Herencia
+Usuario <|-- Secretario
+Usuario <|-- Organizador
 Usuario <|-- Alumno
-Usuario <|-- TitularOrganizacion
 
-Organizacion "1" -- "1..*" TitularOrganizacion : asigna >
-Organizacion "1" -- "0..*" ActividadExtraescolar : ofrece >
+' Asociaciones
+Ambito "1" o-- "0..*" Actividad : clasifica >
+Secretario "1..*" -- "0..*" Actividad : administra >
+Organizador "1" -- "0..*" Actividad : gestiona >
 
-TitularOrganizacion "1" -- "0..*" ActividadExtraescolar : gestiona >
-TitularOrganizacion "1" -- "0..*" RegistroActividad : certifica / carga >
+Actividad "1" *-- "1..*" RolParticipacion : define >
+Actividad "1" -- "0..*" Participacion : incluye >
+Alumno "1" -- "0..*" Participacion : realiza >
+RolParticipacion "1" -- "0..*" Participacion : asigna >
 
-Alumno "1" -- "0..*" RegistroActividad : posee en historial >
-ActividadExtraescolar "1" -- "0..*" RegistroActividad : origina >
+Participacion "1" *-- "0..*" Asistencia : registra >
+
+Alumno "1" -- "0..*" Solicitud : presenta >
+Secretario "0..1" -- "0..*" Solicitud : resuelve >
+
+' Dependencias con enumeraciones
+Asistencia ..> EstadoAsistencia
+Solicitud ..> TipoSolicitud
+Solicitud ..> EstadoSolicitud
 
 @enduml
