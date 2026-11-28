@@ -17,8 +17,9 @@
 - Silvia Montes
 
 
-### Temas tratados: elegir el proyecto a desarrollar . Finalmente, vamos a hacer las actividades que hay fuera de las clases de la universidad. Algunos puntos que vamos a tratar
+### Temas tratados: 
+Elegir el proyecto a desarrollar. Finalmente, vamos a hacer las actividades que hay fuera de las clases de la universidad. Algunos puntos que vamos a tratar
 son: la formación profesional que no queda registrada en uneatlantico, los delegados que tienen créditos por cada curso que hacen, cada departamento se hace exclusivamente cargo
 de su tema, entre otros. 
 
-Próxima sesión: 6/11/2026
+### Próxima sesión: 6/11/2026
